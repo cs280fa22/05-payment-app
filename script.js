@@ -19,7 +19,26 @@ function isCardNumberMatchExpectedPattern(value) {
 }
 
 function isCardNumberValid(cnumber) {
-  return false; // TODO Implement me
+  let arr = cnumber
+    .split("")
+    .reverse()
+    .map((element) => parseInt(element));
+
+  const sum = arr.reduce(reducer, 0);
+
+  function reducer(accumulator, currentValue, currentIndex) {
+    currentIndex += 1; // account for 0-based indexing
+    if (currentIndex % 2 === 0) {
+      // even index
+      currentValue *= 2;
+      if (currentValue > 9) {
+        currentValue -= 9;
+      }
+    }
+    return accumulator + currentValue;
+  }
+
+  return sum % 10 === 0;
 }
 
 function handleFormSubmit(event) {
